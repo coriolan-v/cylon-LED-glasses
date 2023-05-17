@@ -7,7 +7,7 @@
 #define LED_TYPE WS2811
 #define COLOR_ORDER GRB
 CRGB leds[NUM_LEDS];
-CRGB leds_2[NUM_LEDS];
+//CRGB leds_2[NUM_LEDS];
 
 #define UPDATES_PER_SECOND 200
 CRGBPalette16 gPal;
@@ -43,7 +43,7 @@ TBlendType currentBlending;
 extern CRGBPalette16 myRedWhiteBluePalette;
 extern const TProgmemPalette16 PinkPalette PROGMEM;
 extern const TProgmemPalette16 YellowPalette PROGMEM;
-int sensorPin = A8;  // select the input pin for the potentiometer
+//int sensorPin = A8;  // select the input pin for the potentiometer
 
 bool gReverseDirection = false;
 
@@ -54,16 +54,16 @@ void setup() {
   //pinMode(27, OUTPUT);
   //digitalWrite(27, LOW);
 
-  Serial.begin(9600);
-  delay(1000);  // power-up safety delay
+  //Serial.begin(9600);
+  //delay(1000);  // power-up safety delay
   FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   //FastLED.addLeds<LED_TYPE, LED_PIN_2, COLOR_ORDER>(leds_2, NUM_LEDS).setCorrection( TypicalLEDStrip );
   FastLED.setBrightness(BRIGHTNESS);
 
-  currentPalette = RainbowColors_p;
-  currentBlending = LINEARBLEND;
+  //currentPalette = RainbowColors_p;
+  //currentBlending = LINEARBLEND;
 
-  gPal = CRGBPalette16(CRGB::Black, CRGB::Pink, CRGB::Pink, CRGB::White);
+  //gPal = CRGBPalette16(CRGB::Black, CRGB::Pink, CRGB::Pink, CRGB::White);
 
   //FillLEDsFromPaletteColors();
 
@@ -140,25 +140,25 @@ unsigned long previousMillis = 0;  // will store last time LED was updated
 const long interval = 100;  // interval at which to blink (milliseconds)
 
 
-void readPot() {
-  unsigned long currentMillis = millis();
+// void readPot() {
+//   unsigned long currentMillis = millis();
 
-  if (currentMillis - previousMillis >= interval) {
-    // save the last time you blinked the LED
-    previousMillis = currentMillis;
+//   if (currentMillis - previousMillis >= interval) {
+//     // save the last time you blinked the LED
+//     previousMillis = currentMillis;
 
-    int sensorValue = analogRead(sensorPin);
-    int brightness = map(sensorValue, 0, 4095, 0, 100);
-    FastLED.setBrightness(brightness);
-  }
-}
+//     int sensorValue = analogRead(sensorPin);
+//     int brightness = map(sensorValue, 0, 4095, 0, 100);
+//     FastLED.setBrightness(brightness);
+//   }
+// }
 
 void FillLEDsFromPaletteColors(uint8_t colorIndex) {
   uint8_t brightness = 255;
 
   for (int i = 0; i < NUM_LEDS; ++i) {
     leds[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
-    leds_2[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
+    //leds_2[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
     colorIndex += 3;
   }
 }
