@@ -1,13 +1,11 @@
 #include <FastLED.h>
 
 #define LED_PIN A10
-#define LED_PIN_2 A9
-#define NUM_LEDS 20
-#define BRIGHTNESS 64
+#define NUM_LEDS 11
+#define BRIGHTNESS 25
 #define LED_TYPE WS2811
 #define COLOR_ORDER GRB
 CRGB leds[NUM_LEDS];
-//CRGB leds_2[NUM_LEDS];
 
 #define UPDATES_PER_SECOND 200
 CRGBPalette16 gPal;
@@ -43,36 +41,33 @@ TBlendType currentBlending;
 extern CRGBPalette16 myRedWhiteBluePalette;
 extern const TProgmemPalette16 PinkPalette PROGMEM;
 extern const TProgmemPalette16 YellowPalette PROGMEM;
-//int sensorPin = A8;  // select the input pin for the potentiometer
+//int sensorPin = A11;  // select the input pin for the potentiometer
 
 bool gReverseDirection = false;
 
 void setup() {
-  Serial.begin(9600);
-  //pinMode(13, OUTPUT);
-  //digitalWrite(13, HIGH);
-  //pinMode(27, OUTPUT);
-  //digitalWrite(27, LOW);
+ // Serial.begin(9600);
+  // pinMode(13, OUTPUT);
+  // digitalWrite(13, HIGH);
+  // pinMode(27, OUTPUT);
+  // digitalWrite(27, LOW);
 
-  //Serial.begin(9600);
-  //delay(1000);  // power-up safety delay
+  Serial.begin(9600);
+ // delay(1000);  // power-up safety delay
   FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  //FastLED.addLeds<LED_TYPE, LED_PIN_2, COLOR_ORDER>(leds_2, NUM_LEDS).setCorrection( TypicalLEDStrip );
+  // FastLED.addLeds<LED_TYPE, LED_PIN_2, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(BRIGHTNESS);
 
-  //currentPalette = RainbowColors_p;
-  //currentBlending = LINEARBLEND;
+  currentPalette = RainbowColors_p;
+  currentBlending = LINEARBLEND;
 
-  //gPal = CRGBPalette16(CRGB::Black, CRGB::Pink, CRGB::Pink, CRGB::White);
+  gPal = CRGBPalette16(CRGB::Black, CRGB::Pink, CRGB::Pink, CRGB::White);
 
   //FillLEDsFromPaletteColors();
 
-  //chooseRandomPalette();
-  currentPalette = PinkPalette;
+  chooseRandomPalette();
 
-  FastLED.setBrightness(30);
-
-  //readPot();
+  // readPot();
 }
 
 
@@ -126,12 +121,34 @@ void loop() {
 
 void chooseRandomPalette() {
   randomSeed(analogRead(1));
-  int randomNum = random(0, 2);
+  int randomNum = random(0, 5);
+  Serial.print("Ranbdom: "); Serial.println(randomNum);
+
   if (randomNum == 0) {
     currentPalette = YellowPalette;
-  } else {
+  } else if (randomNum == 0) {
     currentPalette = PinkPalette;
-  }
+  } else if (randomNum == 1) {
+    currentPalette = PartyColors_p;
+  } else if (randomNum == 2) {
+    currentPalette = CloudColors_p;
+  } else if (randomNum == 3) {
+    currentPalette = HeatColors_p;
+  } else if (randomNum == 4) {
+  //   currentPalette = YellowPalette;
+  // } else if (randomNum == 5) {
+  //   currentPalette = YellowPalette;
+  // } else if (randomNum == 6) {
+  //   currentPalette = YellowPalette;
+  // } else if (randomNum == 7) {
+  //   currentPalette = YellowPalette;
+  // } else if (randomNum == 8) {
+  //   currentPalette = YellowPalette;
+  // } else if (randomNum == 9) {
+  //   currentPalette = YellowPalette;
+    } else {
+      currentPalette = YellowPalette;
+    }
 }
 
 unsigned long previousMillis = 0;  // will store last time LED was updated
@@ -158,7 +175,6 @@ void FillLEDsFromPaletteColors(uint8_t colorIndex) {
 
   for (int i = 0; i < NUM_LEDS; ++i) {
     leds[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
-    //leds_2[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
     colorIndex += 3;
   }
 }
